@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import produce from 'immer';
 
 const nRows = 25;
@@ -14,7 +14,22 @@ function Board() {
         return rows;
     });
 
+    const [generator, setGenerator] = useState(false);
+
+    const runGenerator = useCallback(() => {
+        if (!generator) {
+           return; 
+        }
+        setTimeout(runGenerator, 1000);
+    }, [])
+
     return (
+        <>
+        <div>
+        <button onClick={() => { setGenerator(!generator)}}>{generator ? 'Stop' : 'Start'}</button>
+        <button>Reset</button>
+
+        </div>
         <div style={{
             display: 'grid',
             gridTemplateColumns: `repeat(${nCols}, 20px)`
@@ -26,7 +41,7 @@ function Board() {
                     key={`${i}-${k}`}
                     onClick={() => {
                         const newGrid = produce(grid, gridClone => {
-                            gridClone[i][k] = 1;
+                            gridClone[i][k] = grid[i][k] ? 0 : 1;
                         })
                         setGrid(newGrid)
                         
@@ -41,6 +56,7 @@ function Board() {
             ))
         )}
         </div>
+        </>
     )
 }
 
