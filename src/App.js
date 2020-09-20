@@ -6,7 +6,7 @@ function App () {
     return (
       <>
         <h1>
-          Conway's Game of {name}
+          Conway's Game of Life
         </h1>
 
         <Board/>

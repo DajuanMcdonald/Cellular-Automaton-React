@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import produce from 'immer';
 
 const nRows = 25;
 const nCols = 25;
@@ -13,7 +14,6 @@ function Board() {
         return rows;
     });
 
-    console.log(grid)
     return (
         <div style={{
             display: 'grid',
@@ -24,6 +24,13 @@ function Board() {
             rows.map((col, k) => (
                 <div 
                     key={`${i}-${k}`}
+                    onClick={() => {
+                        const newGrid = produce(grid, gridClone => {
+                            gridClone[i][k] = 1;
+                        })
+                        setGrid(newGrid)
+                        
+                    }}
                     style={{
                         width: 20, 
                         height: 20, 
