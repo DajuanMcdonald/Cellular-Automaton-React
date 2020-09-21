@@ -1,10 +1,12 @@
 import React, {useCallback, useState, useRef} from 'react';
 import produce from 'immer';
+import { start } from 'repl';
 
 const nRows = 25;
 const nCols = 25;
 
-const iterations = 0
+let iterator;
+let stepSpeed = 1000;
 
 function Board() {
     const [grid, setGrid] = useState(() => {
@@ -33,8 +35,6 @@ function Board() {
                         if (gridClone[i-1][j-1] === 1) {
                             neighbors ++;
                         }
-
-
         
                     }
                 }
@@ -50,10 +50,11 @@ function Board() {
     return (
         <>
         <div>
-    <h3>Generations: {iterations}</h3>
+        <h3>Generations: {iterator}</h3>
         </div>
         <div>
-        <button onClick={() => { setGenerator(!generator)}}>{generator ? 'Stop' : 'Start'}</button>
+        <button onClick={() => { setGenerator(!generator)}}>{generator ? 'Stop' : 'Start' }</button>
+    
         <button onClick={() => {window.location.reload()}}>Reset</button>
 
         </div>
@@ -71,6 +72,7 @@ function Board() {
                             gridClone[i][k] = grid[i][k] ? 0 : 1;
                         })
                         console.log(newGrid[i][k])
+                        console.log(i+'-'+k)
                         
                         setGrid(newGrid)
                         
@@ -79,7 +81,8 @@ function Board() {
                         width: 20, 
                         height: 20, 
                         backgroundColor: grid[i][k] ? 'grey' : undefined,
-                        border: 'solid 1px black' 
+                        border: 'solid 1px black',
+
                     }}
                 />
             ))
