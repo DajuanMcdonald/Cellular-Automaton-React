@@ -65,14 +65,17 @@ function Board() {
         
         {grid.map((rows, i) => 
             rows.map((col, k) => (
-                <div 
+                <div
+                    className='dead'
                     key={`${i}-${k}`}
                     onClick={() => {
                         const newGrid = produce(grid, gridClone => {
                             gridClone[i][k] = grid[i][k] ? 0 : 1;
+                           
                         })
                         console.log(newGrid[i][k])
                         console.log(i+'-'+k)
+                        console.log(grid[i][k])
                         
                         setGrid(newGrid)
                         

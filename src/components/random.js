@@ -1,6 +1,6 @@
 //random configured set up// cells are strings; int_int,
-const row = 25
-const col = 25
+const row = 24
+const col = 24
 function Randommize() {
     for ( let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
