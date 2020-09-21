@@ -1,0 +1,16 @@
+.main-container {
+    border: 1px solid;
+    display:flex;
+}
+
+.right-bar {
+    border: 1px solid;
+    width: 50%;
+    margin: 55px;
+}
+
+.options {
+    border: 1px solid;
+    width: 50%;
+    margin: 55px;
+}
