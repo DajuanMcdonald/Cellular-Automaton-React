@@ -44,7 +44,7 @@ function Board() {
         })
         
 
-        setTimeout(runGenerator, 1000);
+        setTimeout(runGenerator, stepSpeed);
     }, [])
 
     return (

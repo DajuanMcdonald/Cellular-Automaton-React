@@ -14,19 +14,19 @@ import CellState from '../src/components/CellState';
         })
 
         //dead cell should stay dead and has zero live neighbors
-        test('Cell with no live neighbors', () => {
+        test('Should Cell die with no live neighbors', () => {
             const nextStateWith0Neighbors = aliveCell.getNeighbors(0)
             expect(nextStateWith0Neighbors).toEqual(CellState.DEAD)
         })
 
         //should die if fewer than 2 neighbors
-        test('Cell with 1 live neighbors', () => {
+        test('Should Cell die with 1 live neighbors', () => {
             const nextState = aliveCell.getNeighbors(1)
             expect(nextState).toEqual(CellState.DEAD)
         })
 
         // should live with 2 or 3 live neighbors
-        test('Cell with 2 or 3 live neighbors', () => {
+        test('Should Cell live with 2 or 3 live neighbors', () => {
 
             const nextStatewith2Neighbors = aliveCell.getNeighbors(2);
             expect(nextStatewith2Neighbors).toEqual(CellState.ALIVE);
@@ -37,9 +37,9 @@ import CellState from '../src/components/CellState';
         })
 
         //should die if more than 3 neighbors
-        test('Cell with more than 3 live neighbors', () => {
+        test('Should Cell die with 4 or more live neighbors', () => {
             const nextStatewithMoreThan3Neighbors = aliveCell.getNeighbors(4);
             expect(nextStatewithMoreThan3Neighbors).toEqual(CellState.DEAD)
-        })
+        }) 
 
     })
