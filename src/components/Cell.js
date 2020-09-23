@@ -1,10 +1,14 @@
 import CellState from "./CellState";
 
+/** Apply rules of life to determine if this cell will change states */
+
 export default class Cell {
     constructor(state) {
         this.state = state;
         
     }
+    
+    /**Breaks down above steps into appropriate sub-tasks implemented with helper functions to improve readability */
 
     getNeighbors(numNeighbors) {
         //Each cell with one or no neighbors dies, as if by solitude.
