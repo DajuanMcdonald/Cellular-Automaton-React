@@ -45,6 +45,24 @@ class App extends Component {
     cells: game.state
   }
 
+  toggleState = (row, col) => {
+    this.setState((prevState) => {
+      const cells = prevState.cells.map((cellRow, rowNum) => (
+        cellRow.map((cell, colNum) => {
+          if (rowNum === row && colNum === col) {
+            return new Cell(cell.state === ALIVE ? DEAD : ALIVE);
+          }
+          return cell
+        })
+      ));
+      game.state = cells
+      return {
+        cells
+      }
+    })
+    console.log(row +','+ col)
+  }
+
   nextState = () => {
    console.log(this.state)
    const nextState = game.nextState()
@@ -82,6 +100,7 @@ class App extends Component {
                     id={rowNum + ',' + colNum}
                     style={{ background: cell.state === ALIVE ? 'black' : 'white'}}
                     className='cell'
+                    onClick={() => this.toggleState(rowNum, colNum)}
                     >
                     
                   </td>
