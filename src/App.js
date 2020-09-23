@@ -8,6 +8,9 @@ import Cell from './components/Cell'
 import './App.css'
 
 const {DEAD, ALIVE} = CellState;
+let start = false;
+let timer = 0;
+let stepSpeed = 1000;
 
 const game = new Game([
   [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
@@ -43,6 +46,25 @@ const game = new Game([
 class App extends Component {
   state = {
     cells: game.state
+  }
+
+  startStop = () => {
+
+    if (!start) {
+      start = true
+      this.startStop()
+      timer = setTimeout(this.startStop, stepSpeed)
+      console.log(timer)
+
+    
+    } else {
+      start = false
+      clearTimeout(timer)
+    }
+
+    return timer
+
+
   }
 
   toggleState = (row, col) => {
@@ -87,6 +109,7 @@ class App extends Component {
           <Options/>
         </div>
         <div>
+          <h3>Generation: {timer} </h3>
         <table>
           <tbody>
           {
@@ -111,7 +134,7 @@ class App extends Component {
           }
           </tbody>
         </table>
-        <button onClick={() => {}}>Start</button>
+        <button id="start" onClick={this.startStop}>Start</button>
         <button onClick={ this.nextState}>Next State</button>
         <button onClick={() => {window.location.reload()}}>Reset Grid</button>
 
