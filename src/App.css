@@ -21,8 +21,10 @@ table {
 
 .right-bar {
     border: 1px solid;
-    width: 50%;
+
     margin: 25px;
+    text-align: center;
+    display: inline;
 }
 
 .options {
