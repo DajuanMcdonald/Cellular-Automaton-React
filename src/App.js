@@ -2,6 +2,9 @@ import React from "react"
 import Board from './components/Board';
 import Option from './components/Options';
 import RightBar from './components/RightBar';
+
+import Randomize from './components/random';
+
 import './App.css';
 
 class App extends React.Component {
