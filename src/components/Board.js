@@ -1,12 +1,14 @@
 import React, {useCallback, useState, useRef} from 'react';
 import produce from 'immer';
-import { start } from 'repl';
+
 
 const nRows = 25;
 const nCols = 25;
 
 let iterator;
 let stepSpeed = 1000;
+
+
 
 function Board() {
     const [grid, setGrid] = useState(() => {
@@ -31,6 +33,7 @@ function Board() {
             return produce(g, gridClone => {
                 for (let i=0; i<nRows; i++) {
                     for (let j = 0; j<nCols; j++) {
+                        //this is where I need to add other logic.
                         let neighbors = 0;
                         if (gridClone[i-1][j-1] === 1) {
                             neighbors ++;
@@ -53,7 +56,9 @@ function Board() {
         <h3>Generations: {iterator}</h3>
         </div>
         <div>
-        <button onClick={() => { setGenerator(!generator)}}>{generator ? 'Stop' : 'Start' }</button>
+        <button onClick={() => { setGenerator(!generator);
+        
+        }}>{generator ? 'Stop' : 'Start' }</button>
     
         <button onClick={() => {window.location.reload()}}>Reset</button>
 

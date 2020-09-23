@@ -46,10 +46,10 @@ export default class Game {
 
     nextState() {
         return this.state.map((row, rowNum) => row.map(
-            (cell, colNum) => new Cell(cell.getNextState(this.getLiveNeighbors(rowNum, colNum)),
+            (cell, colNum) => new Cell(cell.getNeighbors(this.getLiveNeighbors(rowNum, colNum)),
             ),
         ));
-    }
+    } 
 
 
 }
