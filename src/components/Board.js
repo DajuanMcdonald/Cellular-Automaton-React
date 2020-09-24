@@ -75,12 +75,13 @@ class Board extends React.Component {
     console.log();
   };
 
-  startStop = () => {
+  startSimulation = () => {
     if (!start) {
       start = true;
-      this.startStop();
       this.toggleState();
-      timer = setTimeout(this.startStop, stepSpeed);
+      this.startSimulation();
+      this.nextState();
+      timer = setTimeout(this.startSimulation, timer++);
       //   console.log(timer)
     } else {
       start = false;
@@ -89,6 +90,13 @@ class Board extends React.Component {
 
     console.log(timer);
   };
+
+  stopSimulation = () => {
+    if (start) {
+      start = false;
+      clearTimeout(timer)
+    }
+  }
 
   randomize = (row, col) => {
     Randomize();
@@ -116,6 +124,7 @@ class Board extends React.Component {
     console.log(this.state);
     const nextState = game.nextState();
     game.state = nextState;
+    timer++;
 
     this.setState({
       cells: nextState,
@@ -159,9 +168,10 @@ class Board extends React.Component {
             </tbody>
           </table>
 
-          <button id="start" onClick={this.startStop}>
+          <button id="start" onClick={this.startSimulation}>
             Start
           </button>
+          <button id="stop" onClick={this.stopSimulation}>Stop</button>
           {/**user manually toggled cell before starting simulation  */}
           <button onClick={this.nextState}>Next State</button>
 
