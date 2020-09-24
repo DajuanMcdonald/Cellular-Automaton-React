@@ -38,15 +38,12 @@ table {
 }
 
 .right-bar {
-    border: 1px solid;
-
     margin: 25px;
     text-align: center;
     display: inline;
 }
 
 .options {
-    border: 1px solid;
     width: 50%;
     margin: 2px;
 }

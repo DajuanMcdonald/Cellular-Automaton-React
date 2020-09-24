@@ -4,9 +4,9 @@ function RightBar() {
 
     return (
     <>
-        <h2 className='right-bar'>Description:</h2>
+        <div className='right-bar'>
         <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-        Launch demo modal
+        Description
         </button>
 
         
@@ -26,12 +26,13 @@ function RightBar() {
                 Every cell interacts with its eight neighbours, 
                 which are the cells that are horizontally, vertically, or diagonally adjacent. 
             </div>
-            <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary">Save changes</button>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" className="btn btn-primary">Save changes</button>
+                </div>
             </div>
             </div>
-        </div>
+            </div>
         </div>
         
     </>

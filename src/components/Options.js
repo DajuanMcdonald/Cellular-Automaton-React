@@ -4,7 +4,6 @@ function Option() {
 
     return (
         <>
-        <p>Options:</p>
         <div className="d-flex">
             <div className="dropdown mr-1">
                 <button type="button" className="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
