@@ -1,16 +1,61 @@
-.main-container {
-    border: 1px solid;
-    display:flex;
+html {
+  color: white;
+  text-emphasis: bold;
+}
+
+.modal-body {
+  color: black;
+}
+
+.modal-title {
+  color: black;
+}
+
+button {
+  padding: 5px;
+  margin: 2%;
+  border-radius: 12px;
+}
+
+.main {
+  /* border: 10px solid purple; */
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2px;
+  color: white;
+}
+
+table {
+  padding: 10px;
+  height: auto;
+}
+
+.cell {
+  outline: 1px solid goldenrod;
+  width: 25px;
+  height: 25px;
 }
 
 .right-bar {
-    border: 1px solid;
-    width: 50%;
-    margin: 55px;
+  margin: 2px;
+  text-align: center;
+  display: inline;
 }
 
 .options {
-    border: 1px solid;
-    width: 50%;
-    margin: 55px;
+  width: 50%;
+  margin: 2px;
+  align-items: center;
+  align-content: center;
+
+  display: flex;
+  justify-content: center;
+}
+
+.d-flex {
+  padding: 20px;
+  align-items: center;
 }

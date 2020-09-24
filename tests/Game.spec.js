@@ -40,7 +40,7 @@ describe('Neighbor Counting: Game of Life', () => {
         expect(cell.state).toEqual(deadState[0][0])
     })
 
-    test('Should be initialized with a DEAD cell state', () => {
+    test('Should be initialized with a all DEAD cell state', () => {
         const cellState = [
             [new Cell(DEAD), new Cell(DEAD), new Cell(DEAD)],
             [new Cell(DEAD), new Cell(DEAD), new Cell(DEAD)],
@@ -52,7 +52,7 @@ describe('Neighbor Counting: Game of Life', () => {
         expect(deadGameState.state).toEqual(cellState)
     })
 
-    test('Should be initialized with an ALIVE cell state' , () => {
+    test('Should be initialized with an all ALIVE cell state' , () => {
         const cellState = [
 
         [new Cell(ALIVE), new Cell(ALIVE), new Cell(ALIVE)],
