@@ -100,16 +100,17 @@ class Board extends React.Component {
       clearTimeout(timer);
     }
 
-    console.log(timer);
+    // console.log(timer);
     window.requestAnimationFrame(this.nextState)
   };
 
   stopSimulation = () => {
+    cancelAnimationFrame(this.nextState)
+    
     if (!start) {
       start = false;
       clearTimeout(timer)
       // frame = requestAnimationFrame(this.nextState)
-      cancelAnimationFrame(this.nextState)
     }
   }
 
@@ -132,29 +133,31 @@ class Board extends React.Component {
         cells,
       };
     });
-    console.log(row + "," + col);
+    // console.log(cell);
   };
 
-  nextState = () => {
-    // console.log(this.state);
-    const nextState = game.nextState();
-    game.state = nextState;
-    timer++;
 
-    this.setState({
-      cells: nextState,
-    });
-  };
+    nextState = () => {
+      // console.log(this.state);
+      const nextState = game.nextState();
+      game.state = nextState;
+      timer++;
+  
+      this.setState({
+        cells: nextState,
+      });
+    };
+  
 
-  //working on double buffering
-  while() {
+    //working on double buffering
+    while() {
     this.setActivePage(page);
     this.setVisualPage(1 - page);
 
     page = 1 - page;
 
     this.nextState();
-  }
+    }
 
   render() {
     return (
