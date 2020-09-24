@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "./src/App";
 
-import CellState from "./components/CellState";
-import Cell from "./components/Cell";
-import Game from "./components/Game";
+import CellState from "./src/components/CellState";
+import Cell from "./src/components/Cell";
+import Game from "./src/components/Game";
 
 export default {
   CellState,
