@@ -52,9 +52,6 @@ function RightBar() {
                 >
                   Close
                 </button>
-                <button type="button" className="btn btn-primary">
-                  Save changes
-                </button>
               </div>
             </div>
           </div>
