@@ -81,7 +81,7 @@ class Board extends React.Component {
       this.toggleState();
       this.startSimulation();
       this.nextState();
-      timer = setTimeout(this.startSimulation, timer++);
+      timer = setTimeout(this.startSimulation, timer);
       //   console.log(timer)
     } else {
       start = false;
@@ -92,7 +92,7 @@ class Board extends React.Component {
   };
 
   stopSimulation = () => {
-    if (start) {
+    if (!start) {
       start = false;
       clearTimeout(timer)
     }
