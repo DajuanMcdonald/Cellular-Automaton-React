@@ -6,7 +6,7 @@ import CellState from './CellState';
 const {DEAD, ALIVE } = CellState;
 
 
-const game = new Game([
+const randomgame = new Game([
     [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
     [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
     [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
@@ -36,13 +36,13 @@ const game = new Game([
     
 ]);
 
-const row = game.state[0].length;
-const col = game.state[1].length;
+const row = randomgame.state[0].length;
+const col = randomgame.state[1].length;
 
-function Randommize() {
+export default function Randommize() {
   for (let i = 0; i < row / 2; i++) {
     for (let j = 0; j < col / 2; j++) {
-      if (game.state !== CellState.DEAD) {
+      if (randomgame.state !== CellState.DEAD) {
         console.log(CellState.ALIVE);
         // console.log(game.state)
       } else {
@@ -51,6 +51,3 @@ function Randommize() {
     }
   }
 }
-
-Randommize()
-// console.log(game.state[0].length)
