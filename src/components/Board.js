@@ -1,98 +1,213 @@
-import React, {useCallback, useState, useRef} from 'react';
-import produce from 'immer';
-import { start } from 'repl';
+import React from 'react';
 
-const nRows = 25;
-const nCols = 25;
+import Game from './Game';
+import Randomize from './random';
+import CellState from './CellState';
+import Cell from './Cell';
 
-let iterator;
+
+let start = false;
+let page = 0;
+let timer = 0;
+let output = document.getElementById('timer')
 let stepSpeed = 1000;
 
-function Board() {
-    const [grid, setGrid] = useState(() => {
-        const rows = [];
-        for (let i=0; i<nRows; i++) {
-            rows.push(Array.from(Array(nCols), () => 0));
-        }
 
-        return rows;
-    });
+// function paintScreen() {
+//     timer++;
+//     output.innerText = timer;
 
-    const [generator, setGenerator] = useState(false);
+//     if(start)  {
 
-    const runRef = useRef(generator);
-    runRef.current = generator
+//         //recusive call on window object
+//         requestAnimationFrame(paintScreen)
+//     }
 
-    const runGenerator = useCallback(() => {
-        if (!runRef.current) {
-           return; 
-        }
-        setGrid((g) => { 
-            return produce(g, gridClone => {
-                for (let i=0; i<nRows; i++) {
-                    for (let j = 0; j<nCols; j++) {
-                        let neighbors = 0;
-                        if (gridClone[i-1][j-1] === 1) {
-                            neighbors ++;
-                        }
-        
-                    }
-                }
 
-            })
+// }
 
-        })
-        
+// window.requestAnimationFrame(paintScreen)
 
-        setTimeout(runGenerator, stepSpeed);
-    }, [])
+const {DEAD, ALIVE} = CellState;
+// An appropriate data structure to hold a grid of cells that is at least 25x25. Go as big as you want.
+////Cell objects or components that, at a minimum, should have: Properties
 
-    return (
-        <>
-        <div>
-        <h3>Generations: {iterator}</h3>
-        </div>
-        <div>
-        <button onClick={() => { setGenerator(!generator)}}>{generator ? 'Stop' : 'Start' }</button>
+const game = new Game([
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, ALIVE, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, ALIVE, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, ALIVE, ALIVE, ALIVE, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+  [DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD, DEAD],
+
+]);
+
+class Board extends React.Component {
+  state = {
+    cells: game.state,
+  };
+
+  //  Utilize a timeout function to build the next generation of cells & update the display at the chosen time interval
+
+  setActivePage = (page) => {};
+
+  setVisualPage = () => {
+    console.log();
+  };
+
+  // doubleBuffer = () => {
+  //   timer++;
+  //   if (!start) {
+  //     start = true;
+  //     this.toggleState();
+  //     this.nextState();
+  //     requestAnimationFrame(this.doubleBuffer);
+  //   }
+  //   // window.requestAnimationFrame(this.doubleBuffer)
+  // }
+  
+
+  startSimulation = () => {
+    if (!start) {
+      start = true;
+      this.toggleState();
+      this.startSimulation();
+      requestAnimationFrame(this.nextState)
+      timer = setTimeout(this.startSimulation, timer);
+      
+    } else {
+      start = false;
+      clearTimeout(timer);
+    }
+
+    // console.log(timer);
+    window.requestAnimationFrame(this.nextState)
+  };
+
+  stopSimulation = () => {
+    cancelAnimationFrame(this.nextState)
     
-        <button onClick={() => {window.location.reload()}}>Reset</button>
+    if (!start) {
+      start = false;
+      clearTimeout(timer)
+      // frame = requestAnimationFrame(this.nextState)
+    }
+  }
 
-        </div>
-        <div style={{
-            display: 'grid',
-            gridTemplateColumns: `repeat(${nCols}, 20px)`
-        }}>
-        
-        {grid.map((rows, i) => 
-            rows.map((col, k) => (
-                <div
-                    className='dead'
-                    key={`${i}-${k}`}
-                    onClick={() => {
-                        const newGrid = produce(grid, gridClone => {
-                            gridClone[i][k] = grid[i][k] ? 0 : 1;
-                           
-                        })
-                        console.log(newGrid[i][k])
-                        console.log(i+'-'+k)
-                        console.log(grid[i][k])
-                        
-                        setGrid(newGrid)
-                        
-                    }}
-                    style={{
-                        width: 20, 
-                        height: 20, 
-                        backgroundColor: grid[i][k] ? 'grey' : undefined,
-                        border: 'solid 1px black',
+  randomize = (row, col) => {
+    Randomize();
+  };
 
-                    }}
-                />
-            ))
-        )}
+  toggleState = (row, col) => {
+    this.setState((prevState) => {
+      const cells = prevState.cells.map((cellRow, rowNum) =>
+        cellRow.map((cell, colNum) => {
+          if (rowNum === row && colNum === col) {
+            return new Cell(cell.state === ALIVE ? DEAD : ALIVE);
+          }
+          return cell;
+        })
+      );
+      game.state = cells;
+      return {
+        cells,
+      };
+    });
+    // console.log(cell);
+  };
+
+
+    nextState = () => {
+      // console.log(this.state);
+      const nextState = game.nextState();
+      game.state = nextState;
+      timer++;
+  
+      this.setState({
+        cells: nextState,
+      });
+    };
+  
+
+    //working on double buffering
+    while() {
+    this.setActivePage(page);
+    this.setVisualPage(1 - page);
+
+    page = 1 - page;
+
+    this.nextState();
+    }
+
+  render() {
+    return (
+      <>
+        <div>
+          {/*Text to display current generation # being displayed*/}
+          <h3 id="timer">Generation: {timer} </h3>
+          <table>
+            <tbody>
+              {this.state.cells.map((row, rowNum) => (
+                <tr key={rowNum}>
+                  {row.map((cell, colNum) => (
+                    <td
+                      key={colNum}
+                      id={rowNum + "," + colNum}
+                      /*Toggle state functionality: switch between alive & dead either  ...*/
+
+                      style={{
+                        background: cell.state === ALIVE ? "black" : "white",
+                      }}
+                      className="cell"
+                      onClick={() => this.toggleState(rowNum, colNum)}
+                    ></td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <button type="button" className="btn btn-success" onClick={this.startSimulation}>
+            Start
+          </button>
+          <button type="button" className="btn btn-danger" onClick={this.stopSimulation}>Stop</button>
+          {/**user manually toggled cell before starting simulation  */}
+          <button type="button" className="btn btn-warning" onClick={this.nextState}>Next State</button>
+
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Reset Grid
+          </button>
+          <button type="button" className="btn btn-primary">Random</button>
         </div>
-        </>
-    )
+       
+      </>
+    );
+  }
 }
-
 export default Board;
