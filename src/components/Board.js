@@ -64,126 +64,118 @@ const game = new Game([
 
 class Board extends React.Component {
   state = {
-    cells: game.state
-  }
+    cells: game.state,
+  };
 
   //  Utilize a timeout function to build the next generation of cells & update the display at the chosen time interval
 
-  setActivePage = (page) => {
-
-  }
+  setActivePage = (page) => {};
 
   setVisualPage = () => {
-      console.log()
+    console.log();
+  };
 
+  startStop = () => {
+    if (!start) {
+      start = true;
+      this.startStop();
+      this.toggleState();
+      timer = setTimeout(this.startStop, stepSpeed);
+      //   console.log(timer)
+    } else {
+      start = false;
+      clearTimeout(timer);
+    }
+
+    console.log(timer);
+  };
+
+  randomize = (row, col) => {
+    Randomize();
+  };
+
+  toggleState = (row, col) => {
+    this.setState((prevState) => {
+      const cells = prevState.cells.map((cellRow, rowNum) =>
+        cellRow.map((cell, colNum) => {
+          if (rowNum === row && colNum === col) {
+            return new Cell(cell.state === ALIVE ? DEAD : ALIVE);
+          }
+          return cell;
+        })
+      );
+      game.state = cells;
+      return {
+        cells,
+      };
+    });
+    console.log(row + "," + col);
+  };
+
+  nextState = () => {
+    console.log(this.state);
+    const nextState = game.nextState();
+    game.state = nextState;
+
+    this.setState({
+      cells: nextState,
+    });
+  };
+  //working on double buffering
+  while() {
+    this.setActivePage(page);
+    this.setVisualPage(1 - page);
+
+    page = 1 - page;
+
+    this.nextState();
   }
 
-  
-    startStop = () => {
-      
-      if (!start) {
-          start = true
-          this.startStop()
-          timer = setTimeout(this.startStop, stepSpeed)
-          console.log(timer)
-          
-          
-        } else {
-            start = false
-            clearTimeout(timer)
-        }
-        
-        return timer;
-        
-        
-    }
-    
-    randomize = (row, col) => {
-        Randomize()
-    }
+  render() {
+    return (
+      <>
+        <div>
+          {/*Text to display current generation # being displayed*/}
+          <h3 id="timer">Generation: {timer} </h3>
+          <table>
+            <tbody>
+              {this.state.cells.map((row, rowNum) => (
+                <tr key={rowNum}>
+                  {row.map((cell, colNum) => (
+                    <td
+                      key={colNum}
+                      id={rowNum + "," + colNum}
+                      /*Toggle state functionality: switch between alive & dead either  ...*/
 
-    toggleState = (row, col) => {
-        this.setState((prevState) => {
-            const cells = prevState.cells.map((cellRow, rowNum) => (
-                cellRow.map((cell, colNum) => {
-                    if (rowNum === row && colNum === col) {
-                        return new Cell(cell.state === ALIVE ? DEAD : ALIVE);
-                    }
-                    return cell
-                })
-                ));
-                game.state = cells
-                return {
-                    cells
-                }
-            })
-            console.log(row +','+ col)
-        }
-        
-        nextState = () => {
-            console.log(this.state)
-            const nextState = game.nextState()
-            game.state = nextState;
-            
-            this.setState({
-                cells: nextState
-            })
-        }
+                      style={{
+                        background: cell.state === ALIVE ? "black" : "white",
+                      }}
+                      className="cell"
+                      onClick={() => this.toggleState(rowNum, colNum)}
+                    ></td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-        while () {
-            this.setActivePage(page)
-            this.setVisualPage(1-page)
-            
-            page = 1 - page;
-            
-            this.nextState()
+          <button id="start" onClick={this.startStop}>
+            Start
+          </button>
+          {/**user manually toggled cell before starting simulation  */}
+          <button onClick={this.nextState}>Next State</button>
 
-              
-        }
-                
-        render() {
-            return (
-            <>
-            <div>
-                { /*Text to display current generation # being displayed*/}
-                <h3 id='timer'>Generation: </h3>
-                <table>
-                    <tbody>
-                        {
-                
-                            this.state.cells.map((row, rowNum) => (
-                                <tr key={rowNum}>
-                            {
-                                row.map((cell, colNum) => (
-
-                                <td key={colNum}
-                                id={rowNum + ',' + colNum}
-
-                                /*Toggle state functionality: switch between alive & dead either  ...*/
-
-                                style={{ background: cell.state === ALIVE ? 'black' : 'white'}}
-                                className='cell'
-                                onClick={() => this.toggleState(rowNum, colNum)
-                            }
-
-                            ></td>))
-                        }
-                        </tr>
-                        ))
-                    }
-                    </tbody>
-                </table>
-        
-        <button id="start">Start</button>
-        {/**user manually toggled cell before starting simulation  */}
-        <button onClick={ this.nextState}>Next State</button>
-        <button onClick={() => {window.location.reload()}}>Reset Grid</button>
-        <button>Random</button>
-
+          <button
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Reset Grid
+          </button>
+          <button>Random</button>
         </div>
-        </>
-        )
-    }
-
+      </>
+    );
+  }
 }
 export default Board;

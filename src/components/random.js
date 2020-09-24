@@ -36,22 +36,20 @@ const game = new Game([
     
 ]);
 
-const row = game.state[0].length
-const col = game.state[1].length
+const row = game.state[0].length;
+const col = game.state[1].length;
 
 function Randommize() {
-    for ( let i = 0; i < row / 2; i++) {
-            for (let j = 0; j < col / 2; j++) {
-                if (game.state !== CellState.DEAD) {
-                    console.log(CellState.ALIVE)
-                    // console.log(game.state)
-                } else {
-                    console.log('testing')
-                }
-            
-        }
+  for (let i = 0; i < row / 2; i++) {
+    for (let j = 0; j < col / 2; j++) {
+      if (game.state !== CellState.DEAD) {
+        console.log(CellState.ALIVE);
+        // console.log(game.state)
+      } else {
+        console.log("testing");
+      }
     }
-
+  }
 }
 
 Randommize()
