@@ -9,12 +9,12 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <div id="output">
-          <h1>Conway's Game of Life</h1>
-        </div>
+        <nav className="navbar navbar-default navbar-static-top">
+          <div className="container">Conway’s Game of Life</div>
+        </nav>
         <div className="main">
-          <div className="options">
             {/** Create a few sample cell configurations that users can load and runAdd an option that creates a random cell configuration that users can run */}
+          <div className="options">
             <Option />
           </div>
 

@@ -53,4 +53,13 @@ export default class Game {
       )
     );
   }
+
+  nextState30() {
+    return this.state.map((row, rowNum) =>
+      row.map(
+        (cell, colNum) =>
+          new Cell(cell.rule30(this.getLiveNeighbors(rowNum, colNum)))
+      )
+    );
+  }
 }

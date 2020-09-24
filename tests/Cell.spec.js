@@ -37,4 +37,23 @@ describe("Testing Cell State", () => {
     const nextStatewithMoreThan3Neighbors = aliveCell.getNeighbors(4);
     expect(nextStatewithMoreThan3Neighbors).toEqual(CellState.DEAD);
   });
+
 });
+
+
+
+describe("Testing Rule 30", () => {
+  const aliveCell = new Cell(CellState.ALIVE);
+  const deadCell = new Cell(CellState.DEAD);
+
+  test("Should cell be alive if 3 neighbors alive", () => {
+    const nextStateWith3Neighbors = aliveCell.rule30(3);
+    expect(nextStateWith3Neighbors).toEqual(CellState.ALIVE)
+
+  });
+
+  test("Should cell die with 2 live neighbors", () => {
+    const nextStateWith2Neighbors = deadCell.rule30(2);
+    expect(nextStateWith2Neighbors).toEqual(CellState.ALIVE)
+  })
+})

@@ -40,4 +40,32 @@ export default class Cell {
 
     return CellState.DEAD;
   }
+
+  //rule 30
+  /**
+   * 
+   * So we can see that if only 1 of the 3 cells above it are alive, '
+   * the cell is set to alive, 
+   * or if only the right 2 are alive and the left is dead,
+   * it is also set to alive. In all other cases, 
+   * the cell is set to dead. This set of rules is called Rule 30.
+   */
+  rule30(numNeighbors) {
+    if (this.state === CellState.ALIVE) {
+      if (numNeighbors === 3) {
+        return CellState.ALIVE
+      }
+    
+    }
+    
+
+    if (this.state === CellState.DEAD) {
+      if (numNeighbors === 2) {
+        return CellState.ALIVE
+      }
+    }
+
+    return CellState.DEAD
+  }
+
 }

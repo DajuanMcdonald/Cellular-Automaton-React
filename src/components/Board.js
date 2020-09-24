@@ -75,26 +75,42 @@ class Board extends React.Component {
     console.log();
   };
 
+  // doubleBuffer = () => {
+  //   timer++;
+  //   if (!start) {
+  //     start = true;
+  //     this.toggleState();
+  //     this.nextState();
+  //     requestAnimationFrame(this.doubleBuffer);
+  //   }
+  //   // window.requestAnimationFrame(this.doubleBuffer)
+  // }
+  
+
   startSimulation = () => {
     if (!start) {
       start = true;
       this.toggleState();
       this.startSimulation();
-      this.nextState();
+      requestAnimationFrame(this.nextState)
       timer = setTimeout(this.startSimulation, timer);
-      //   console.log(timer)
+      
     } else {
       start = false;
       clearTimeout(timer);
     }
 
-    console.log(timer);
+    // console.log(timer);
+    window.requestAnimationFrame(this.nextState)
   };
 
   stopSimulation = () => {
+    cancelAnimationFrame(this.nextState)
+    
     if (!start) {
       start = false;
       clearTimeout(timer)
+      // frame = requestAnimationFrame(this.nextState)
     }
   }
 
@@ -117,28 +133,31 @@ class Board extends React.Component {
         cells,
       };
     });
-    console.log(row + "," + col);
+    // console.log(cell);
   };
 
-  nextState = () => {
-    console.log(this.state);
-    const nextState = game.nextState();
-    game.state = nextState;
-    timer++;
 
-    this.setState({
-      cells: nextState,
-    });
-  };
-  //working on double buffering
-  while() {
+    nextState = () => {
+      // console.log(this.state);
+      const nextState = game.nextState();
+      game.state = nextState;
+      timer++;
+  
+      this.setState({
+        cells: nextState,
+      });
+    };
+  
+
+    //working on double buffering
+    while() {
     this.setActivePage(page);
     this.setVisualPage(1 - page);
 
     page = 1 - page;
 
     this.nextState();
-  }
+    }
 
   render() {
     return (
@@ -168,22 +187,25 @@ class Board extends React.Component {
             </tbody>
           </table>
 
-          <button id="start" onClick={this.startSimulation}>
+          <button type="button" className="btn btn-success" onClick={this.startSimulation}>
             Start
           </button>
-          <button id="stop" onClick={this.stopSimulation}>Stop</button>
+          <button type="button" className="btn btn-danger" onClick={this.stopSimulation}>Stop</button>
           {/**user manually toggled cell before starting simulation  */}
-          <button onClick={this.nextState}>Next State</button>
+          <button type="button" className="btn btn-warning" onClick={this.nextState}>Next State</button>
 
           <button
+            type="button"
+            className="btn btn-secondary"
             onClick={() => {
               window.location.reload();
             }}
           >
             Reset Grid
           </button>
-          <button>Random</button>
+          <button type="button" className="btn btn-primary">Random</button>
         </div>
+       
       </>
     );
   }
