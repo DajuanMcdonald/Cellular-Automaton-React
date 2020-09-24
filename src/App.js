@@ -16,11 +16,13 @@ class App extends React.Component {
      
   
 
-<div id="output"></div>
-      <div className='main'>
-        <h1>
-          Conway's Game of Life
-        </h1>
+        <div id="output">
+          <h1>
+            Conway's Game of Life
+          </h1>
+
+
+        </div>
         <div className='main'>
 
         <div className='options'>
@@ -38,7 +40,6 @@ class App extends React.Component {
 
 
         </div>
-      </div>
       </>
     );
   }
